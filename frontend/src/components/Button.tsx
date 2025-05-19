@@ -1,7 +1,7 @@
 import React from "react";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "default" | "outline" | "ghost" | "destructive";
+  variant?: "default" | "outline" 
   size?: "sm" | "md" | "lg";
 };
 
@@ -19,12 +19,8 @@ export default function Button ({
       ? "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500"
       : variant === "outline"
       ? "border border-slate-300 text-slate-700 bg-white hover:bg-slate-100"
-      : variant === "ghost"
-      ? "bg-transparent text-slate-700 hover:bg-slate-100"
-      : variant === "destructive"
-      ? "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"
-      : "";
-
+      :""
+      
   const sizeStyles =
     size === "sm"
       ? "px-3 py-1.5 text-sm"

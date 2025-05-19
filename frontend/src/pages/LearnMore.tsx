@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 40 },
-  //@ts-ignore
-  visible: (custom) => ({
+  visible: (custom:number) => ({
     opacity: 1,
     y: 0,
     transition: { delay: custom * 0.3, duration: 0.9 },
@@ -46,7 +45,11 @@ const LearnMore: React.FC = () => {
           >
             The Second Brain: A New Era of Personal Knowledge Management
           </motion.h1>
-
+            <img
+            src="digital-brain.jpg"
+            alt="Digital Brain"
+            className="rounded-xl shadow-md"
+          />
           <Section title="Introduction" index={1}>
             <p>
               In an age of information overload, the concept of a Second Brain has emerged as a revolutionary approach
@@ -86,17 +89,7 @@ const LearnMore: React.FC = () => {
             </ol>
           </Section>
 
-          <Section title="Tools to Build a Second Brain" index={5}>
-            <ul className="list-disc list-inside">
-              <li><strong>Notion:</strong> Customizable databases and workspace.</li>
-              <li><strong>Obsidian:</strong> Markdown notes with knowledge graph view.</li>
-              <li><strong>Evernote:</strong> Classic, searchable note storage.</li>
-              <li><strong>Roam Research:</strong> Daily notes and bidirectional linking.</li>
-              <li><strong>Others:</strong> Apple Notes, OneNote, Google Keep.</li>
-            </ul>
-          </Section>
-
-          <Section title="How to Build One" index={6}>
+          <Section title="How to Build One" index={5}>
             <ol className="list-decimal list-inside">
               <li>Choose your tool and use it daily.</li>
               <li>Set up your PARA structure.</li>
@@ -105,8 +98,13 @@ const LearnMore: React.FC = () => {
               <li>Revisit and reuse to make it meaningful.</li>
             </ol>
           </Section>
+          <img
+            src="creative-workspace.jpg"
+            alt="Creative Workspace"
+            className="rounded-xl shadow-md sm:col-span-2"
+          />
 
-          <Section title="Applications" index={7}>
+          <Section title="Applications" index={6}>
             <ul className="list-disc list-inside">
               <li>Students: Research, summaries, and study plans.</li>
               <li>Writers: Drafting, outlines, and content creation.</li>
@@ -116,7 +114,7 @@ const LearnMore: React.FC = () => {
             </ul>
           </Section>
 
-          <Section title="Benefits and Challenges" index={8}>
+          <Section title="Benefits and Challenges" index={7}>
             <p><strong>Benefits:</strong></p>
             <ul className="list-disc list-inside">
               <li>More clarity, creativity, and productivity.</li>
@@ -130,7 +128,7 @@ const LearnMore: React.FC = () => {
             </ul>
           </Section>
 
-          <Section title="Conclusion" index={9}>
+          <Section title="Conclusion" index={8}>
             <p>
               The Second Brain is a mindset shift. It helps people think deeper, create more, and manage digital
               knowledge. As Tiago Forte says, “Your mind is for having ideas, not holding them.”
@@ -145,16 +143,8 @@ const LearnMore: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
         >
-          <img
-            src="digital-brain.jpg"
-            alt="Digital Brain"
-            className="rounded-xl shadow-md"
-          />
-          <img
-            src="creative-workspace.jpg"
-            alt="Creative Workspace"
-            className="rounded-xl shadow-md sm:col-span-2"
-          />
+          
+          
         </motion.div>
       </div>
     </div>
