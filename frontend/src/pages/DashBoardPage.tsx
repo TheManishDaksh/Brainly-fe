@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button, Card } from "../components";
 import { Brain, XIcon, Youtube, Globe } from "lucide-react";
+import PlusIcon from "../icons/PlusIcon";
 
 const SidebarItem = ({
   icon,
@@ -41,7 +42,7 @@ const DashboardPage = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          <Button className="rounded-full px-5">Create Brain</Button>
+          <Button className="rounded-full px-5"><PlusIcon/> Create Brain</Button>
           <Button variant="outline" className="rounded-full px-5">
             Share Brain
           </Button>
