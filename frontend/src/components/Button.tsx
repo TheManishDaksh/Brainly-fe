@@ -2,13 +2,15 @@ import React from "react";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "default" | "outline" 
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg"
+  onClick : ()=>void;
 };
 
 export default function Button ({
   className = "",
   variant = "default",
   size = "md",
+  onClick,
   ...props
 }: ButtonProps) {
   const baseStyles =
@@ -30,5 +32,5 @@ export default function Button ({
 
   const combinedClasses = `${baseStyles} ${variantStyles} ${sizeStyles} ${className}`;
 
-  return <button className={combinedClasses} {...props} />;
+  return <button className={combinedClasses} {...props} onClick={onClick} />;
 };

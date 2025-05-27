@@ -42,7 +42,7 @@ export default function Card({ type, title, link, tags, text }: CardProps) {
           {text || "plase enter your text"}
         </div>
       ) : type === "twitter" ? (
-        <div>
+        <div className="py-4">
           <blockquote className="twitter-tweet">
                     <a href={link?.replace("x.com", "twitter.com")}></a> 
                 </blockquote>
