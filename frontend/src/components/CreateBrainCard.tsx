@@ -1,26 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 
 export default function CreateBrainCard() {
   const [contentType, setContentType] = useState("document");
   const [ title, setTitle ] = useState("");
   const [ content, setContent ] = useState("");
   const [ tags, setTags ] = useState("");
+  const [ loading, setLoading ] = useState(false)
+  const navigate = useNavigate();
 
-  async function submitContent(){
+    async function submitContent(){
+          setLoading(true);
     try{
-        await axios.post("http://localhost:3000/content",{
+        const brain = await axios.post("http://localhost:3000/content",{
             title, content, contentType, tags
         },{
             headers : {
                 Authorization : localStorage.getItem("token")
             }
         })
+        if(brain.status === 200){
+          alert("New Brain Created");
+          navigate("/dashboard")
+        }
+        alert("Input Error")
+        navigate("/dashboard")
     }catch(error : any){
         alert(`error in posting data${error.data.message}`)
     }
   }
+
   return (
     <div>
       <div className=" max-w-96 h-full rounded-lg shadow shadow-slate-400 py-4 px-4">
@@ -84,8 +96,12 @@ export default function CreateBrainCard() {
             />
           </div>
         <div>
-            <Button className="w-full"
+            { loading ? (
+              <Spinner/>
+            ) : (
+              <Button className="w-full"
             onClick={()=>submitContent}>Submit</Button>
+            )}
         </div>
       </div>
     </div>

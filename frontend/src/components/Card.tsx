@@ -5,11 +5,11 @@ import { ShareIcon, DeleteIcon, TwitterIcon } from "../icons";
 type CardType = "twitter" | "youtube" | "doccument";
 
 interface CardProps {
-  type: CardType;
-  title: String;
-  link?: String;
-  tags: String;
-  text?: String;
+  type: CardType ;
+  title: string;
+  link?: string;
+  tags: string[];
+  text?: string;
 }
 
 export default function Card({ type, title, link, tags, text }: CardProps) {
@@ -60,8 +60,13 @@ export default function Card({ type, title, link, tags, text }: CardProps) {
         </div>
       )}
 
-      <span className="bg-indigo-200 border-none rounded-full px-2 py-0.5">
-        {tags || "#productivity"}
+      <span>
+        {tags.map((tag, index)=>(
+          <div className="bg-indigo-200 border-none rounded-full px-2 py-0.5"
+          key={index}>
+            {tag}
+          </div>
+        )) || "#productivity"}
       </span>
     </motion.div>
   );

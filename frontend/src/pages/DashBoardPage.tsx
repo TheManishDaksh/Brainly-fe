@@ -4,13 +4,46 @@ import { Brain } from "lucide-react";
 import { PlusIcon, ShareIcon } from "../icons";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
 
+type CardType = "twitter" | "youtube" | "doccument";
+
+interface CardTypeProps {
+  _id: string;
+  title: string;
+  type: CardType;
+  link?: string;
+  text?: string;
+  tags?: string[];
+}
 const DashboardPage = () => {
   const [createBrain, setCreateBrain] = useState(false);
   const [shareBrain, setShareBrain] = useState(false);
+  const [ cardData, setCardData ] = useState<CardTypeProps[]>([]);
   const shareRef = useRef(null);
   const navigate = useNavigate();
   const cardRef = useRef(null);
+
+  useEffect(()=>{
+    async function main(){
+      try{
+        const response = await axios.get("http://localhost:3000/content",{
+      headers : {
+        Authorization : localStorage.getItem("token")
+      }
+    })
+    if(!response){
+      alert("No data or Server down")
+      return;
+    }
+    const data = response.data;
+    setCardData(data.content);
+      }catch(error : any){
+        alert("Some Internal Issues")
+      }
+    }
+    main();
+  },[])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -61,19 +94,41 @@ const DashboardPage = () => {
           Second Brain
         </div>
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="flex items-center gap-4">
           <Button className="rounded-full px-5" onClick={() => setCreateBrain(true)}>
-            <PlusIcon /> Create Brain
+            <PlusIcon /> <span className="hidden sm:block">Create Brain</span>
           </Button>
           <Button onClick={()=>setShareBrain(true)}
           variant="outline" className="rounded-full px-5">
-            <ShareIcon /> Share Brain
+            <ShareIcon /> <span className="hidden sm:block">Share Brain</span>
           </Button>
         </div>
       </nav>
-
       <div className="px-10 py-10">
-        <Card type="twitter" />
+        { cardData.length > 0 ? (
+          cardData.map((card)=>{
+            return <div key={card._id}>
+              <Card title={card.title}
+                type={card.type}
+                link={card.link}
+                text={card.text}
+                tags={card.tags ?? []}
+              />
+            </div>
+          })
+        ) : (
+          <div className="flex flex-col justify-center items-center gap-5">
+            <div className="text-xl font-bold md:text-3xl">
+            No Brain Found
+          </div>
+          <div>
+            <Button onClick={()=>setCreateBrain(true)}
+            size="lg"
+            className="gap-2"
+            ><PlusIcon /> <span>Create Brain</span></Button>
+          </div>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>

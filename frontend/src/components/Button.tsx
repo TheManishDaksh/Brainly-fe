@@ -1,9 +1,9 @@
-import React from "react";
+import React, { type FormEvent } from "react";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "default" | "outline" 
   size?: "sm" | "md" | "lg"
-  onClick : ()=>void;
+  onClick : (e:FormEvent)=>void;
 };
 
 export default function Button ({
