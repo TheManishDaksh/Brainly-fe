@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "../components";
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -11,20 +11,29 @@ export default function SignupPage () {
   const [password, setPassword ] = useState<string>('');
   const navigate = useNavigate();
   
-  function handleSignupForm(e:FormEvent){
+  async function handleSignupForm(e:FormEvent){
     e.preventDefault();
-    useEffect(()=>{
-      async function main(){
-        await axios.post("http://localhost:3000/signup",{
+    try{
+      const post = await axios.post("http://localhost:3000/signup",{
           name,
           username : email,
           password
         })
-      }
-      main();
-      navigate("/signin")
-    },[email, password])
+ 
+        if(post){
+          alert('user signup successfully');
+          navigate("/signin");
+        }
+    }catch(error:any){
+      if(error.response.status === 403) {
+          alert("user already exist")
+          return;
+        }
+      alert("not able to signup");
+      console.log("Error"+error)
+    }
   }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-slate-100 px-4">
       <motion.div
@@ -36,7 +45,7 @@ export default function SignupPage () {
         <h2 className="text-3xl font-bold text-center text-slate-800 mb-6">
           Create Your Account
         </h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSignupForm}>
           <div>
             <label className="block text-sm font-medium text-slate-600">Name</label>
             <input

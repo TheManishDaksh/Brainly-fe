@@ -6,6 +6,14 @@ import { useNavigate } from "react-router-dom";
 export default function LandingPage(){
 
   const navigate = useNavigate();
+  function handleStart(){
+  const token = localStorage.getItem("token");
+    if(token){
+      navigate("/dashboard")
+      return;
+    }
+    navigate("/signin");
+  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-slate-100 flex flex-col pt-4">
       
@@ -47,7 +55,7 @@ export default function LandingPage(){
           transition={{ delay: 0.8 }}
           className="mt-8 flex gap-4 justify-center"
         >
-          <Button onClick={()=>navigate("/signin")}
+          <Button onClick={handleStart}
           className="rounded-4xl px-6 py-3 text-lg bg-indigo-600 hover:bg-indigo-700 shadow-md cursor-pointer hover:-translate-y-2 transition-transform duration-300">
             Get Started
             <ArrowRight className="ml-2 w-4 h-4" />
