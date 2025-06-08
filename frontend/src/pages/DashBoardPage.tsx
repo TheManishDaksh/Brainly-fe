@@ -39,7 +39,9 @@ const DashboardPage = () => {
     const data = response.data;
     setCardData(data.content);
       }catch(error : any){
-        alert("Some Internal Issues")
+        if(error.response.status === 403){
+          alert("Some Internal Issues")
+        }
       }
     }
     main();

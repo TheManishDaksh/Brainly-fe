@@ -38,7 +38,7 @@ export default function Card({ type, title, link, tags, text }: CardProps) {
         </div>
       </div>
       {type === "doccument" ? (
-        <div className="py-3">
+        <div className="py-3 text-black">
           {text || "plase enter your text"}
         </div>
       ) : type === "twitter" ? (

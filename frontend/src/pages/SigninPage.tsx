@@ -24,9 +24,7 @@ export default function SigninPage() {
         alert("backend error")
       }
       const token = response.data.token;
-      const userId = response.data.id;
-      localStorage.setItem(token, "token");
-      localStorage.setItem(userId, "userId");
+      localStorage.setItem("token", token);
       if (!token) {
         alert("input Error");
         return;

@@ -6,30 +6,42 @@ import Spinner from "./Spinner";
 
 export default function CreateBrainCard() {
   const [contentType, setContentType] = useState("document");
-  const [ title, setTitle ] = useState("");
-  const [ content, setContent ] = useState("");
-  const [ tags, setTags ] = useState("");
-  const [ loading, setLoading ] = useState(false)
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [text, setText] = useState("");
+  const [tags, setTags] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-    async function submitContent(){
-          setLoading(true);
-    try{
-        const brain = await axios.post("http://localhost:3000/content",{
-            title, content, contentType, tags
-        },{
-            headers : {
-                Authorization : localStorage.getItem("token")
-            }
-        })
-        if(brain.status === 200){
-          alert("New Brain Created");
-          navigate("/dashboard")
+  async function submitContent() {
+    setLoading(true);
+    try {
+      const brain = await axios.post(
+        "http://localhost:3000/content",
+        {
+          title,
+          link: content,
+          text,
+          contentType: contentType,
+          tags,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
         }
-        alert("Input Error")
-        navigate("/dashboard")
-    }catch(error : any){
-        alert(`error in posting data${error.data.message}`)
+      );
+      if (brain.status === 200) {
+        alert("New Brain Created");
+        navigate("/dashboard");
+        return;
+      }
+      alert("Input Error");
+      navigate("/dashboard");
+    } catch (error: any) {
+      if (error.response.status === 403) {
+        alert("Server Error");
+      }
     }
   }
 
@@ -62,46 +74,46 @@ export default function CreateBrainCard() {
             type="text"
             placeholder="Title"
             value={title}
-            onChange={(e)=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         {contentType === "document" ? (
           <div className="py-4">
             <textarea
-  className="w-full min-h-[150px] resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-  placeholder="Write your tasks..."
-  value={content}
-  onChange={(e) => setContent(e.target.value)}
-/>
-
+              className="w-full min-h-[150px] resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+              placeholder="Write your tasks..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
           </div>
         ) : (
           <div className="py-4">
             <input
-               className="w-full min-h-[40px] resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+              className="w-full min-h-[40px] resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
               type="text"
               placeholder={`Paste your ${contentType} link`}
               value={content}
-              onChange={(e)=>setContent(e.target.value)}
+              onChange={(e) => setContent(e.target.value)}
             />
           </div>
         )}
         <div className="py-4">
-            <input
-               className="w-full min-h-[40px] resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-              type="text"
-              placeholder="Tags"
-              value={tags}
-              onChange={(e)=>setTags(e.target.value)}
-            />
-          </div>
+          <input
+            className="w-full min-h-[40px] resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+            type="text"
+            placeholder="Tags"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+        </div>
         <div>
-            { loading ? (
-              <Spinner/>
-            ) : (
-              <Button className="w-full"
-            onClick={()=>submitContent}>Submit</Button>
-            )}
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Button className="w-full" onClick={submitContent}>
+              Submit
+            </Button>
+          )}
         </div>
       </div>
     </div>
