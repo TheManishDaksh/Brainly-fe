@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 
 export default function CreateBrainCard() {
-  const [contentType, setContentType] = useState("document");
+  const [contentType, setContentType] = useState("doccument"); 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [text, setText] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagsInput, setTagsInput] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ export default function CreateBrainCard() {
           title,
           link: content,
           text,
-          contentType: contentType,
+          type: contentType,
           tags,
         },
         {
@@ -31,6 +32,8 @@ export default function CreateBrainCard() {
           },
         }
       );
+      console.log(brain);
+
       if (brain.status === 200) {
         alert("New Brain Created");
         navigate("/dashboard");
@@ -50,8 +53,8 @@ export default function CreateBrainCard() {
       <div className=" max-w-96 h-full rounded-lg shadow shadow-slate-400 py-4 px-4">
         <div className="flex justify-between">
           <Button
-            variant={contentType === "document" ? "default" : "outline"}
-            onClick={() => setContentType("document")}
+            variant={contentType === "doccument" ? "default" : "outline"}
+            onClick={() => setContentType("doccument")}
           >
             Doccument
           </Button>
@@ -77,7 +80,7 @@ export default function CreateBrainCard() {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        {contentType === "document" ? (
+        {contentType === "doccument" ? (
           <div className="py-4">
             <textarea
               className="w-full min-h-[150px] resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
@@ -102,8 +105,15 @@ export default function CreateBrainCard() {
             className="w-full min-h-[40px] resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
             type="text"
             placeholder="Tags"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
+            value={tagsInput}
+            onChange={(e) => {
+              setTagsInput(e.target.value);
+              const input = e.target.value
+                .split(",")
+                .map((tag) => tag.trim())
+                .filter((tag) => tag !== "");
+              setTags(input);
+            }}
           />
         </div>
         <div>

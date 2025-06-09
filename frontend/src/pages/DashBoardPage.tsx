@@ -36,8 +36,10 @@ const DashboardPage = () => {
       alert("No data or Server down")
       return;
     }
-    const data = response.data;
-    setCardData(data.content);
+    const data = response.data.content;
+    setCardData(data);
+    console.log(data);
+    
       }catch(error : any){
         if(error.response.status === 403){
           alert("Some Internal Issues")
@@ -113,7 +115,7 @@ const DashboardPage = () => {
               <Card title={card.title}
                 type={card.type}
                 link={card.link}
-                text={card.text}
+                text={card.text?.toString()}
                 tags={card.tags ?? []}
               />
             </div>

@@ -5,7 +5,7 @@ import { ShareIcon, DeleteIcon, TwitterIcon } from "../icons";
 type CardType = "twitter" | "youtube" | "doccument";
 
 interface CardProps {
-  type: CardType ;
+  type: CardType;
   title: string;
   link?: string;
   tags: string[];
@@ -14,11 +14,12 @@ interface CardProps {
 
 export default function Card({ type, title, link, tags, text }: CardProps) {
   return (
-    <motion.div 
-    initial={{ opacity: 0, y: -40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-    className=" p-4 bg-white shadow shadow-slate-400 max-w-72 rounded-lg hover:scale-105 transition-all duration-300">
+    <motion.div
+      initial={{ opacity: 0, y: -40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className=" p-4 bg-white shadow shadow-slate-400 max-w-72 rounded-lg hover:scale-105 transition-all duration-300"
+    >
       <div className="flex justify-between gap-3 items-center">
         <div className="flex items-center ">
           {type === "twitter" ? (
@@ -38,17 +39,23 @@ export default function Card({ type, title, link, tags, text }: CardProps) {
         </div>
       </div>
       {type === "doccument" ? (
-        <div className="py-3 text-black">
-          {text || "plase enter your text"}
-        </div>
+        <div className="py-3 text-black">{text || "plase enter your text"}</div>
       ) : type === "twitter" ? (
         <div className="py-4">
-          <blockquote className="twitter-tweet">
-                    <a href={link?.replace("x.com", "twitter.com")}></a> 
-                </blockquote>
+          <blockquote className="twitter-tweet align-middle" data-dnt="true">
+            <p lang="en" dir="ltr">
+             <a href={link?.replace("x","twitter")}></a>
+            </p>
+            
+          </blockquote>
+          <script
+            async
+            src="https://platform.twitter.com/widgets.js"
+            charSet="utf-8"
+          ></script>
         </div>
       ) : (
-        <div className="py-5">   
+        <div className="py-5">
           <iframe
             src={link?.replace("watch", "embed").replace("?v=", "/")}
             title="youtube video player"
@@ -61,11 +68,13 @@ export default function Card({ type, title, link, tags, text }: CardProps) {
       )}
 
       <span>
-        {tags.map((tag, index)=>(
-          <div className="bg-indigo-200 border-none rounded-full px-2 py-0.5"
-          key={index}>
+        {tags.map((tag, index) => (
+          <span
+            className="bg-indigo-200 border-none rounded-full px-2 py-0.5 m-1"
+            key={index}
+          >
             {tag}
-          </div>
+          </span>
         )) || "#productivity"}
       </span>
     </motion.div>
