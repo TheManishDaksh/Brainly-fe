@@ -1,10 +1,12 @@
 import { DockIcon, YoutubeIcon } from "lucide-react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import { ShareIcon, DeleteIcon, TwitterIcon } from "../icons";
 
 type CardType = "twitter" | "youtube" | "doccument";
 
 interface CardProps {
+  id : string;
   type: CardType;
   title: string;
   link?: string;
@@ -12,7 +14,30 @@ interface CardProps {
   text?: string;
 }
 
-export default function Card({ type, title, link, tags, text }: CardProps) {
+export default function Card({ type, title, link, tags, text, id }: CardProps) {
+ async function handleDeleteClick(){
+  try {
+    console.log("delete");
+    
+      const response = await axios.delete("http://localhost:3000/content", {
+        headers: {
+          Authorization: localStorage.getItem("token") ,
+        },
+        data: {
+          contentId: id,
+        },
+      });
+      console.log("dele");
+      
+      if (response.status === 200) {
+        alert("Card deleted");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Delete failed", error);
+      alert("Failed to delete card");
+    }
+ }
   return (
     <motion.div
       initial={{ opacity: 0, y: -40 }}
@@ -35,7 +60,7 @@ export default function Card({ type, title, link, tags, text }: CardProps) {
         </div>
         <div className=" flex text-slate-500 cursor-pointer gap-3">
           <ShareIcon />
-          <DeleteIcon />
+          <DeleteIcon onClick={handleDeleteClick}/>
         </div>
       </div>
       {type === "doccument" ? (

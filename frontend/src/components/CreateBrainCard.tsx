@@ -109,7 +109,7 @@ export default function CreateBrainCard() {
             onChange={(e) => {
               setTagsInput(e.target.value);
               const input = e.target.value
-                .split(",")
+                .split(" ")
                 .map((tag) => tag.trim())
                 .filter((tag) => tag !== "");
               setTags(input);

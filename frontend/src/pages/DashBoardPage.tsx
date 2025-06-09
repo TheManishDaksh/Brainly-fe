@@ -19,7 +19,7 @@ interface CardTypeProps {
 const DashboardPage = () => {
   const [createBrain, setCreateBrain] = useState(false);
   const [shareBrain, setShareBrain] = useState(false);
-  const [ cardData, setCardData ] = useState<CardTypeProps[]>([]);
+  const [cardData, setCardData] = useState<CardTypeProps[]>([]);
   const shareRef = useRef(null);
   const navigate = useNavigate();
   const cardRef = useRef(null);
@@ -108,32 +108,33 @@ const DashboardPage = () => {
           </Button>
         </div>
       </nav>
-      <div className="px-10 py-10">
-        { cardData.length > 0 ? (
-          cardData.map((card)=>{
-            return <div key={card._id}>
-              <Card title={card.title}
-                type={card.type}
-                link={card.link}
-                text={card.text?.toString()}
-                tags={card.tags ?? []}
-              />
-            </div>
-          })
-        ) : (
-          <div className="flex flex-col justify-center items-center gap-5">
-            <div className="text-xl font-bold md:text-3xl">
-            No Brain Found
-          </div>
-          <div>
-            <Button onClick={()=>setCreateBrain(true)}
-            size="lg"
-            className="gap-2"
-            ><PlusIcon /> <span>Create Brain</span></Button>
-          </div>
-          </div>
-        )}
+<div className="px-10 py-10">
+  {cardData.length > 0 ? (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {cardData.map((card) => (
+        <Card
+          key={card._id}
+          title={card.title}
+          id={card._id}
+          type={card.type}
+          link={card.link}
+          text={card.text}
+          tags={card.tags ?? []}
+        />
+      ))}
+    </div>
+  ) : (
+    <div className="flex flex-col justify-center items-center gap-5">
+      <div className="text-xl font-bold md:text-3xl">No Brain Found</div>
+      <div>
+        <Button onClick={() => setCreateBrain(true)} size="lg" className="gap-2">
+          <PlusIcon /> <span>Create Brain</span>
+        </Button>
       </div>
+    </div>
+  )}
+</div>
+
 
       <AnimatePresence>
         {createBrain && (
