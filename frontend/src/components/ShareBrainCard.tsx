@@ -25,7 +25,7 @@ export default function ShareBrainCard() {
      }
     )
      const hash = response.data.hash;
-     setSharLink(`http://localhost:3000/brain/${hash}`); 
+     setSharLink(`http://localhost:5173/share/${hash}`); 
      } catch (error:any) {
       if(error.response.status === 403){
         toast.error("backend error with generated url");
