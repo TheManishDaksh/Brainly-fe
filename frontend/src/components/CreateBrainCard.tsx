@@ -3,6 +3,7 @@ import Button from "./Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
+import { toast } from "react-toastify";
 
 export default function CreateBrainCard() {
   const [contentType, setContentType] = useState("doccument"); 
@@ -32,18 +33,16 @@ export default function CreateBrainCard() {
           },
         }
       );
-      console.log(brain);
 
       if (brain.status === 200) {
-        alert("New Brain Created");
-        navigate("/dashboard");
+        toast.success("New Brain Created");
+        window.location.reload();
         return;
       }
-      alert("Input Error");
-      navigate("/dashboard");
+      toast.error("Input Error");
     } catch (error: any) {
       if (error.response.status === 403) {
-        alert("Server Error");
+        toast.error("Server Error");
       }
     }
   }

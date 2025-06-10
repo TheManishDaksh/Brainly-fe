@@ -8,7 +8,6 @@ export default function LandingPage(){
   const navigate = useNavigate();
   function handleStart(){
   const token = localStorage.getItem("token");
-  console.log(token);
   
     if(token){
       navigate("/dashboard")

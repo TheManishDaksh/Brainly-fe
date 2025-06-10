@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import Button from "./Button";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function ShareBrainCard() {
   const [shareLink, setSharLink] = useState('');
@@ -8,7 +9,8 @@ export default function ShareBrainCard() {
     function copyUrl(){
       if(inputRef.current){
         //@ts-ignore
-        navigator.clipboard.writeText(inputRef.current.value)
+        navigator.clipboard.writeText(inputRef.current.value);
+        toast.success("URL Copied Successfully");
       }
     }
     async function generateLink(){
@@ -26,7 +28,7 @@ export default function ShareBrainCard() {
      setSharLink(`http://localhost:3000/brain/${hash}`); 
      } catch (error:any) {
       if(error.response.status === 403){
-        alert("backend error with generated url");
+        toast.error("backend error with generated url");
       }
      }
     }

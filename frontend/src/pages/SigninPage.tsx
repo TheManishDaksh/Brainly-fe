@@ -3,6 +3,7 @@ import { Button } from "../components";
 import { useNavigate } from "react-router-dom";
 import { useState, type FormEvent } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function SigninPage() {
   const [email, setEmail] = useState<string>("");
@@ -11,27 +12,25 @@ export default function SigninPage() {
 
   async function handleLoginForm(e: FormEvent) {
     e.preventDefault();
-    console.log("signin");
-    
     try {
       const response = await axios.post("http://localhost:3000/signin", {
         username : email,
         password,
       });
-      console.log(response);
       
       if(!response){
-        alert("backend error")
+        toast.error("backend error")
       }
       const token = response.data.token;
       localStorage.setItem("token", token);
       if (!token) {
-        alert("input Error");
+        toast.error("input Error");
         return;
       }
+      toast.success("user signin successfully");
       navigate("/dashboard");
     } catch (error: any) {
-      alert("something is down with server");
+      toast.error("something is down with server");
     }
   }
     return (

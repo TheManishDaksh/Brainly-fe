@@ -3,6 +3,7 @@ import { Button } from "../components";
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function SignupPage () {
 
@@ -21,16 +22,15 @@ export default function SignupPage () {
         })
  
         if(post){
-          alert('user signup successfully');
+          toast.success('user signup successfully');
           navigate("/signin");
         }
     }catch(error:any){
       if(error.response.status === 403) {
-          alert("user already exist")
+          toast.error("user already exist")
           return;
         }
-      alert("not able to signup");
-      console.log("Error"+error)
+      toast.error("not able to signup");
     }
   }
 

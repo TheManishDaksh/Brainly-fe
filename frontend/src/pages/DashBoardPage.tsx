@@ -5,6 +5,7 @@ import { PlusIcon, ShareIcon } from "../icons";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type CardType = "twitter" | "youtube" | "doccument";
 
@@ -41,15 +42,14 @@ const DashboardPage = () => {
           }
         });
         if (!response) {
-          alert("No data or Server down");
+          toast.error("No data or Server down");
           return;
         }
         const data = response.data.content;
         setCardData(data);
-        console.log(data);
       } catch (error: any) {
         if (error.response.status === 403) {
-          alert("Some Internal Issues");
+          toast.error("Some Internal Issues");
         }
       }
     }
@@ -141,17 +141,15 @@ const DashboardPage = () => {
           headers: { Authorization: localStorage.getItem("token") || "" },
         }
       );
-      console.log(response);
       
       if (response.status === 200) {
-        alert("Content updated");
+        toast.success("Content updated");
         setIsEditable(false);
         setEditingCard(null);
         window.location.reload();
       }
     } catch (error) {
-      console.error("Edit failed", error);
-      alert("Failed to edit card");
+      toast.error("Failed to edit card");
     }
   };
 

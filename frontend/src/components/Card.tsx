@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { DockIcon, YoutubeIcon } from "lucide-react";
 import { ShareIcon, DeleteIcon, TwitterIcon, EditIcon } from "../icons";
+import { toast } from "react-toastify";
 
 type CardType = "twitter" | "youtube" | "doccument";
 
@@ -24,12 +25,11 @@ export default function Card({ id, type, title, link, tags, text, onEdit }: Card
       });
 
       if (response.status === 200) {
-        alert("Card deleted");
+        toast.success("Card deleted");
         window.location.reload();
       }
     } catch (error) {
-      console.error("Delete failed", error);
-      alert("Failed to delete card");
+      toast.error("Failed to delete card");
     }
   };
 
