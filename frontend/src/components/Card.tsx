@@ -1,34 +1,28 @@
-import { DockIcon, YoutubeIcon } from "lucide-react";
-import axios from "axios";
 import { motion } from "framer-motion";
-import { ShareIcon, DeleteIcon, TwitterIcon } from "../icons";
+import axios from "axios";
+import { DockIcon, YoutubeIcon } from "lucide-react";
+import { ShareIcon, DeleteIcon, TwitterIcon, EditIcon } from "../icons";
 
 type CardType = "twitter" | "youtube" | "doccument";
 
 interface CardProps {
-  id : string;
+  id: string;
   type: CardType;
   title: string;
   link?: string;
   tags: string[];
   text?: string;
+  onEdit: () => void; // New prop for edit callback
 }
 
-export default function Card({ type, title, link, tags, text, id }: CardProps) {
- async function handleDeleteClick(){
-  try {
-    console.log("delete");
-    
-      const response = await axios.delete("http://localhost:3000/content", {
-        headers: {
-          Authorization: localStorage.getItem("token") ,
-        },
-        data: {
-          contentId: id,
-        },
+export default function Card({ id, type, title, link, tags, text, onEdit }: CardProps) {
+  const handleDeleteClick = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/content/${id}`, {
+        headers: { Authorization: localStorage.getItem("token") || "" },
+        data: { contentId: id },
       });
-      console.log("dele");
-      
+
       if (response.status === 200) {
         alert("Card deleted");
         window.location.reload();
@@ -37,71 +31,59 @@ export default function Card({ type, title, link, tags, text, id }: CardProps) {
       console.error("Delete failed", error);
       alert("Failed to delete card");
     }
- }
+  };
+
+  const handleShare = () => {
+    if (link) window.open(link, "_blank");
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className=" p-4 bg-white shadow shadow-slate-400 max-w-72 rounded-lg hover:scale-105 transition-all duration-300"
+      className="p-2 md:p-4 bg-white shadow shadow-slate-400 max-w-72 rounded-lg hover:scale-105 transition-all duration-300"
     >
-      <div className="flex justify-between gap-3 items-center">
-        <div className="flex items-center ">
-          {type === "twitter" ? (
-            <TwitterIcon />
-          ) : type === "youtube" ? (
-            <YoutubeIcon />
-          ) : (
-            <DockIcon />
-          )}
-        </div>
-        <div className="text-base font-semibold">
-          {title || "Title is tweeter most uncommon"}
-        </div>
-        <div className=" flex text-slate-500 cursor-pointer gap-3">
-          <ShareIcon />
-          <DeleteIcon onClick={handleDeleteClick}/>
+      <div className="flex justify-between items-center gap-3">
+        <div>{type === "twitter" ? <TwitterIcon /> : type === "youtube" ? <YoutubeIcon /> : <DockIcon />}</div>
+        <div className="text-base font-semibold truncate max-w-[100px]">{title || "Untitled"}</div>
+        <div className="flex gap-3 text-slate-500 cursor-pointer">
+          {type === "doccument" ? <EditIcon onClick={onEdit} /> : <ShareIcon onClick={handleShare} />}
+          <DeleteIcon onClick={handleDeleteClick} />
         </div>
       </div>
-      {type === "doccument" ? (
-        <div className="py-3 text-black">{text || "plase enter your text"}</div>
-      ) : type === "twitter" ? (
-        <div className="py-4">
-          <blockquote className="twitter-tweet align-middle" data-dnt="true">
+
+      {/* Main Content */}
+      {type === "doccument" && <p className="py-3 text-black">{text || "No content provided."}</p>}
+      {type === "twitter" && (
+        <div className="py-4 flex items-center justify-center min-w-full">
+          <blockquote className="twitter-tweet" data-dnt="true">
             <p lang="en" dir="ltr">
-             <a href={link?.replace("x","twitter")}></a>
+              <a href={link?.replace("x", "twitter")}></a>
             </p>
-            
           </blockquote>
-          <script
-            async
-            src="https://platform.twitter.com/widgets.js"
-            charSet="utf-8"
-          ></script>
+          <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8" />
         </div>
-      ) : (
+      )}
+      {type === "youtube" && (
         <div className="py-5">
           <iframe
             src={link?.replace("watch", "embed").replace("?v=", "/")}
             title="youtube video player"
             className="w-full h-full rounded-lg"
             allowFullScreen
-            scrolling="no"
-            allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;"
           ></iframe>
         </div>
       )}
 
-      <span>
-        {tags.map((tag, index) => (
-          <span
-            className="bg-indigo-200 border-none rounded-full px-2 py-0.5 m-1"
-            key={index}
-          >
+      {/* Tags */}
+      <div className="mt-2 flex flex-wrap gap-1">
+        {(tags.length ? tags : ["#productivity"]).map((tag, index) => (
+          <span key={index} className="bg-indigo-200 rounded-full px-2 py-0.5 text-xs">
             {tag}
           </span>
-        )) || "#productivity"}
-      </span>
+        ))}
+      </div>
     </motion.div>
   );
 }

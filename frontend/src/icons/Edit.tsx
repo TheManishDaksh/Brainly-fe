@@ -1,5 +1,5 @@
 
-export default function ShareIcon({ onClick }: { onClick?: () => void }) {
+export default function EditIcon({ onClick }: { onClick?: () => void }) {
   return (
     <svg
       onClick={onClick}
@@ -13,7 +13,7 @@ export default function ShareIcon({ onClick }: { onClick?: () => void }) {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M13.5 4.5H19.5V10.5M10.5 13.5L19.5 4.5M19.5 19.5H4.5V4.5"
+        d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L6.75 19.963 3 21l1.037-3.75L16.862 3.487z"
       />
     </svg>
   );
