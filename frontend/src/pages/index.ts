@@ -5,3 +5,4 @@ export { default as SignupPage } from "./SignupPage";
 export { default as DashBoardPage } from "./DashBoardPage";
 export { default as SharePage } from "./SharePage";
 export { default as ProtectedRoute } from "./ProtectedRoute";
+export { default as SearchPage } from "./SearchPage";

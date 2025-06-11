@@ -32,7 +32,6 @@ export default function SharePage() {
       const res = response.data.content;
       setContent(res);
       setUserName(response.data.username);
-      console.log("Fetched content:", res);
     } catch (error: any) {
       toast.error("can't get brain");
       console.error("Error fetching brain data:", error);
@@ -42,8 +41,6 @@ export default function SharePage() {
   useEffect(()=>{
     fetchContent();
   },[])
-
-  console.log("content", content);
 
   return (
     <div className="bg-sky-100 pt-10 px-2 md:px-10 w-[100vw] h-[100%]">

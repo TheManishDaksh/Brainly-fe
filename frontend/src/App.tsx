@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { LandingPage, SigninPage, SignupPage, DashBoardPage, LearnMore, SharePage, ProtectedRoute } from "./pages";
+import { LandingPage, SigninPage, SignupPage, DashBoardPage, LearnMore, SharePage, ProtectedRoute, SearchPage } from "./pages";
 
 export default function App(){
   return (
@@ -16,7 +16,7 @@ export default function App(){
             <DashBoardPage/>
              </ProtectedRoute>
             } />
-         
+          <Route path="/search" element={<SearchPage/>} />
           <Route path="/share/:hash" element={<SharePage/>} />
         </Routes>
       </BrowserRouter>

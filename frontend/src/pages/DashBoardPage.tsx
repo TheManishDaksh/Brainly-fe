@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type FormEvent } from "react";
-import { Button, Card, CreateBrainCard, ShareBrainCard } from "../components";
+import { Button, Card, CreateBrainCard, SearchBar, ShareBrainCard } from "../components";
 import { Brain } from "lucide-react";
 import { PlusIcon, ShareIcon } from "../icons";
 import { useNavigate } from "react-router-dom";
@@ -198,7 +198,7 @@ const DashboardPage = () => {
           </Button>
         </div>
       </nav>
-
+      <SearchBar/>
       <div className="px-2 md:px-10 py-10">
   {cardData.length > 0 ? (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start auto-rows-min">
