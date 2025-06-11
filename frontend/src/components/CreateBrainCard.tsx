@@ -13,7 +13,6 @@ export default function CreateBrainCard() {
   const [tags, setTags] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   async function submitContent() {
     setLoading(true);
@@ -55,19 +54,19 @@ export default function CreateBrainCard() {
             variant={contentType === "doccument" ? "default" : "outline"}
             onClick={() => setContentType("doccument")}
           >
-            Doccument
+            {window.screen.width < 425 ? "Text" : "Doccument"}
           </Button>
           <Button
             variant={contentType === "twitter" ? "default" : "outline"}
             onClick={() => setContentType("twitter")}
           >
-            Twitter
+            {window.screen.width < 425 ? "Twitter" : "Twitter"}
           </Button>
           <Button
             variant={contentType === "youtube" ? "default" : "outline"}
             onClick={() => setContentType("youtube")}
           >
-            Youtube
+            {window.screen.width < 425 ? "Yt" : "Youtube"}
           </Button>
         </div>
         <div className="py-4">

@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { LandingPage, SigninPage, SignupPage, DashBoardPage, LearnMore, SharePage } from "./pages";
+import { LandingPage, SigninPage, SignupPage, DashBoardPage, LearnMore, SharePage, ProtectedRoute } from "./pages";
 
 export default function App(){
   return (
@@ -10,7 +10,13 @@ export default function App(){
           <Route path="/learnmore" element={<LearnMore/>} />
           <Route path="/signin" element={<SigninPage/>}/>
           <Route path="/signup" element={<SignupPage/>}/>
-          <Route path="/dashboard" element={<DashBoardPage/>} />
+          <Route path="/dashboard" element={
+            
+          <ProtectedRoute>
+            <DashBoardPage/>
+             </ProtectedRoute>
+            } />
+         
           <Route path="/share/:hash" element={<SharePage/>} />
         </Routes>
       </BrowserRouter>

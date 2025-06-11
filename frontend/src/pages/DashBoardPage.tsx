@@ -21,6 +21,7 @@ interface CardTypeProps {
 const DashboardPage = () => {
   const [createBrain, setCreateBrain] = useState(false);
   const [shareBrain, setShareBrain] = useState(false);
+  const [username, setUserName] = useState("");
   const [cardData, setCardData] = useState<CardTypeProps[]>([]);
   const [isEditable, setIsEditable] = useState(false);
   const [editingCard, setEditingCard] = useState<CardTypeProps | null>(null);
@@ -47,6 +48,8 @@ const DashboardPage = () => {
         }
         const data = response.data.content;
         setCardData(data);
+        setUserName(response.data.username);
+        
       } catch (error: any) {
         if (error.response.status === 403) {
           toast.error("Some Internal Issues");
@@ -183,6 +186,9 @@ const DashboardPage = () => {
         </div>
 
         <div className="flex items-center gap-4">
+          <div>
+            <p className="hidden md:block text-xl font-bold text-indigo-500">{`Welcome, ${username}`}</p>
+          </div>
           <Button className="rounded-full px-5" onClick={() => setCreateBrain(true)}>
             <PlusIcon /> <span className="hidden sm:block">Create Brain</span>
           </Button>
@@ -194,21 +200,21 @@ const DashboardPage = () => {
       </nav>
 
       <div className="px-2 md:px-10 py-10">
-        {cardData.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {cardData.map((card) => (
-              <Card
-                key={card._id}
-                title={card.title}
-                id={card._id}
-                type={card.type}
-                link={card.link}
-                text={card.text}
-                tags={card.tags ?? []}
-                onEdit={() => handleEdit(card)}
-              />
-            ))}
-          </div>
+  {cardData.length > 0 ? (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start auto-rows-min">
+      {cardData.map((card) => (
+        <Card
+          key={card._id}
+          title={card.title}
+          id={card._id}
+          type={card.type}
+          link={card.link}
+          text={card.text}
+          tags={card.tags ?? []}
+          onEdit={() => handleEdit(card)}
+        />
+      ))}
+    </div>
         ) : (
           <div className="flex flex-col justify-center items-center gap-5">
             <div className="text-xl font-bold md:text-3xl">No Brain Found</div>
@@ -233,7 +239,7 @@ const DashboardPage = () => {
 
             <motion.div
               ref={cardRef}
-              className="fixed z-50 left-[65%] top-[90%] -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-2xl shadow-xl w-[400px] max-w-full"
+              className="fixed z-50 left-[100%] top-[100%] md:left-[65%] md:top-[95%] -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-2xl shadow-xl w-[400px] max-w-full"
               initial={{ opacity: 0, scale: 0.9, y: "-50%", x: "-50%" }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
@@ -257,7 +263,7 @@ const DashboardPage = () => {
 
             <motion.div
               ref={shareRef}
-              className="fixed z-50 left-[65%] top-[70%] -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-2xl shadow-xl w-[400px] max-w-full"
+              className="fixed z-50 left-[100%] top-[50%] md:left-[65%] md:top-[70%] -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-2xl shadow-xl w-[400px] max-w-full"
               initial={{ opacity: 0, scale: 0.9, y: "-50%", x: "-50%" }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
