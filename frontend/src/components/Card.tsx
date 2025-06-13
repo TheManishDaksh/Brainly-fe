@@ -13,7 +13,7 @@ interface CardProps {
   link?: string;
   tags: string[];
   text?: string;
-  onEdit: () => void;
+  onEdit?: () => void;
 }
 
 export default function Card({ id, type, title, link, tags, text, onEdit }: CardProps) {
@@ -44,7 +44,7 @@ export default function Card({ id, type, title, link, tags, text, onEdit }: Card
       transition={{ duration: 0.8 }}
       className="p-2 md:p-3 bg-white shadow shadow-slate-400 max-w-72 rounded-lg hover:scale-105 transition-all duration-300 max-h-full flex flex-col items-center"
     >
-      <div className="flex justify-between gap-8">
+      <div className="flex justify-between gap-10">
         <div>{type === "twitter" ? <TwitterIcon /> : type === "youtube" ? <YoutubeIcon /> : <DockIcon />}</div>
         <div className="text-base font-semibold truncate max-w-[100px]">{title || "Untitled"}</div>
         <div className="flex gap-3 text-slate-500 cursor-pointer">

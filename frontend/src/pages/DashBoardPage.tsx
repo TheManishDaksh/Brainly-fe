@@ -198,7 +198,7 @@ const DashboardPage = () => {
           </Button>
         </div>
       </nav>
-      <SearchBar/>
+      <div className="px-4 pt-4 flex justify-center"><SearchBar/></div>
       <div className="px-2 md:px-10 py-10">
   {cardData.length > 0 ? (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start auto-rows-min">

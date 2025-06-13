@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { SearchBar } from "../components";
+import { Card, SearchBar } from "../components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -24,7 +24,11 @@ export default function SearchPage() {
       if (query) {
         console.log(query);
         const response = await axios.get(
-          `http://localhost:3000/search?query=${query}`
+          `http://localhost:3000/search?query=${query}`,{
+            headers : {
+              Authorization : localStorage.getItem("token")
+            }
+          }
         );
         const res = response.data.content;
         if (res && res.length > 0) {
@@ -44,17 +48,21 @@ export default function SearchPage() {
   console.log(result);
 
   return (
-    <div>
-      <div>
+    <div className="px-4 py-7">
+      <div className="flex justify-center">
         {/*@ts-ignore*/}
         <SearchBar />
       </div>
-      <div>
+      <div className="flex justify-center py-10">
         {result.length > 0 ? (
           result.map((item) => (
             <div key={item.id}>
-              <h3>{item.title}</h3>
-              <p>{item.type}</p>
+              <Card type={item.type}
+                title={item.title}
+                id={item.id}
+                text={item.text}
+                tags={item.tags}
+              />
             </div>
           ))
         ) : (
